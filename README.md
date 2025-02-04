@@ -1,16 +1,20 @@
-# device_info_app
+# Device_Info_App
 
-A new Flutter project.
+# General Description
 
-## Getting Started
+This is a sample application that shows how to use the (device_info_plus) to access the device info.
 
-This project is a starting point for a Flutter application.
+Determine the current operating system, device model and version:
 
-A few resources to get you started if this is your first Flutter project:
+- Determine the current platform using dart:io library.
+- Determine the device model and version using device_info_plus.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The home screen body contains a column of two text in center alignment:
+The first one is the current operating system text, the second one is the device model and version.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The screen output image --> in the images folder.
+----------------------
+
+# Packages Used
+
+device_info_plus: => https://pub.dev/packages/device_info_plus

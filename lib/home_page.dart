@@ -51,7 +51,10 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
           widget.title,
-          style: Theme.of(context).textTheme.headlineMedium,
+          style: Theme.of(context)
+              .textTheme
+              .headlineSmall
+              ?.copyWith(fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
       ),
