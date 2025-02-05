@@ -15,13 +15,15 @@ class MyHomePageState extends State<MyHomePage> {
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
-  //--- Cairo position ---//
-  static CameraPosition _kCairo(bool isZoom) => CameraPosition(
+  //------- Cairo position -------//
+  static CameraPosition _kCairo(bool isZoom) {
+    return CameraPosition(
         bearing: 192.8334901395799,
         target: LatLng(30.033333, 31.233334),
         tilt: 59.440717697143555,
         zoom: isZoom ? 13.151926040649414 : 8.151926040649414,
       );
+  }
 
   bool isZoomed = false;
 
