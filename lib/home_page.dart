@@ -1,6 +1,7 @@
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'dart:io';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -12,36 +13,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String modelName = '';
-  String version = '';
+  List<File> pickedImages = [];
+  final ImagePicker picker = ImagePicker();
 
-  // current operating system
-  String currentOs = '';
+  //-- Pick Multiple Image Method --//
+  Future<void> _pickMultipleImage() async {
+    // We don't need to check permission as this already handled by image_picker
+    // Pick multiple images.
+    final List<XFile> images = await picker.pickMultiImage();
+    if (images.isNotEmpty) {
+      log('picked images count is ${images.length}');
 
-  //-- Get Device info method --//
-  _getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    // Determine the current platform using dart:io library
-    if (Platform.isAndroid) {
-      currentOs = 'Android';
-      // get device info
-      AndroidDeviceInfo Info = await deviceInfo.androidInfo;
-      modelName = Info.model;
-      version = Info.version.release;
-    } else if (Platform.isIOS) {
-      currentOs = 'IOS';
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      modelName = iosInfo.model;
-      version = iosInfo.systemVersion;
+      setState(() {
+        pickedImages = images.map((e) => File(e.path)).toList();
+      });
+    } else {
+      log('No image selected');
     }
-
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _getDeviceInfo();
-    super.initState();
   }
 
   @override
@@ -58,26 +46,46 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         centerTitle: true,
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 16.0,
+        ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Current operating system
-            Text(
-              'Running on $currentOs',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
+            //-- Images Picked List --//
+            if (pickedImages.isNotEmpty)
+              Expanded(
+                child: ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (context, index) {
+                    var image = pickedImages[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: Image.file(
+                        height: 200.0,
+                        width: double.infinity,
+                        image,
+                        fit: BoxFit.cover,
+                      ),
+                    );
+                  },
+                  itemCount: pickedImages.length,
+                ),
               ),
-            ),
-            SizedBox(height: 6),
-            // Device model and operation system version
-            Text(
-              'This Device model is $modelName and version is $version',
+            //-- Pick Image button --//
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: OutlinedButton(
+                  onPressed: _pickMultipleImage,
+                  child: Text('Pick Image'),
+                ),
+              ),
             ),
           ],
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }

@@ -1,6 +1,8 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
     <application
-        android:label="device_info_app"
+        android:label="Device Features App"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
