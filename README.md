@@ -1,24 +1,27 @@
-# Device_Info_App
+# Add Google Maps to the App
 
 # General Description
 
-This is a sample application that shows how to use the (device_info_plus) to access the device info.
+This is a flutter application that shows Google Maps in the Cairo - Egypt position on
+the screen.
 
-The app determines the current operating system, device model and version:
+**To use GoogleMaps:**
 
-- Determine the current platform using dart:io library.
-- Determine the device model name and its operating system version using device_info_plus.
+- first, i put the google_maps_flutter package in the pubspec.yaml.
+- Second, i get my api key and put it in AndroidManifest.xml.
+- Use google map widget in the home screen body.
 
-The home screen body contains a column of two text in center alignment:
-The first one is the current operating system text, the second one is the device model and version.
+# Explanation
+
+The home screen title is "Google Map".
+The body contains a google map widget that shows the map in the Cairo location.
+Adding red marker to the cairo governornate in Egypt location, and while tapping on the marker, the
+map zoom
+in or out.
 
 The screen output image --> in the images folder.
 ----------------------
 
 # Packages Used
 
-device_info_plus: => https://pub.dev/packages/device_info_plus
-
-----------------------------------------
-**Note**: 
-- **The media access task --> in media-access-feature branch**.
+google_maps_flutter: => https://pub.dev/packages/google_maps_flutter

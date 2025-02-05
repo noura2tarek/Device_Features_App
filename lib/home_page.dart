@@ -1,6 +1,6 @@
-import 'package:device_info_plus/device_info_plus.dart';
+import 'dart:async';
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -8,76 +8,92 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MyHomePage> createState() => MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  String modelName = '';
-  String version = '';
+class MyHomePageState extends State<MyHomePage> {
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
-  // current operating system
-  String currentOs = '';
+  //--- Cairo position ---//
+  static CameraPosition _kCairo(bool isZoom) => CameraPosition(
+        bearing: 192.8334901395799,
+        target: LatLng(30.033333, 31.233334),
+        tilt: 59.440717697143555,
+        zoom: isZoom ? 13.151926040649414 : 8.151926040649414,
+      );
 
-  //-- Get Device info method --//
-  _getDeviceInfo() async {
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    // Determine the current platform using dart:io library
-    if (Platform.isAndroid) {
-      currentOs = 'Android';
-      // get device info
-      AndroidDeviceInfo Info = await deviceInfo.androidInfo;
-      modelName = Info.model;
-      version = Info.version.release;
-    } else if (Platform.isIOS) {
-      currentOs = 'IOS';
-      IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-      modelName = iosInfo.model;
-      version = iosInfo.systemVersion;
-    }
+  bool isZoomed = false;
 
-    setState(() {});
-  }
-
-  @override
-  void initState() {
-    _getDeviceInfo();
-    super.initState();
+  //---- Toggle Zoom Cairo Position  -----//
+  Future<void> _zoomCairoEgypt() async {
+    setState(() {
+      isZoomed = !isZoomed;
+    });
+    final GoogleMapController controller = await _controller.future;
+    await controller
+        .animateCamera(CameraUpdate.newCameraPosition(_kCairo(isZoomed)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        // google maps title
         title: Text(
           widget.title,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.copyWith(fontWeight: FontWeight.w500),
+          style: Theme.of(context).textTheme.headlineSmall,
         ),
-        centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Current operating system
-            Text(
-              'Running on $currentOs',
-              style: TextStyle(
-                fontWeight: FontWeight.w500,
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(height: 6),
-            // Device model and operation system version
-            Text(
-              'This Device model is $modelName and version is $version',
-            ),
-          ],
+      body: CustomGoogleMapWidget(
+          initialPosition: _kCairo(false),
+          isZoomed: isZoomed,
+          zoomFunction: _zoomCairoEgypt,
+          onMapCreated: (GoogleMapController controller) {
+            _controller.complete(controller);
+          }),
+    );
+  }
+}
+
+////////////////////////////////
+//---- Custom Google Map Widget -----//
+class CustomGoogleMapWidget extends StatelessWidget {
+  const CustomGoogleMapWidget({
+    super.key,
+    this.onMapCreated,
+    required this.isZoomed,
+    required this.initialPosition,
+    this.zoomFunction,
+  });
+
+  final CameraPosition initialPosition;
+  final void Function(GoogleMapController)? onMapCreated;
+  final bool isZoomed;
+  final void Function()? zoomFunction;
+
+  @override
+  Widget build(BuildContext context) {
+    return GoogleMap(
+      mapType: MapType.normal,
+      // initial camera position to cairo
+      initialCameraPosition: initialPosition,
+      zoomControlsEnabled: false,
+      markers: {
+        // Add red marker on Cairo
+        Marker(
+          markerId: const MarkerId('Cairo'),
+          infoWindow: InfoWindow(
+            title: isZoomed ? 'Cairo' : 'Cairo - Egypt',
+            snippet: isZoomed ? 'Egypt' : ' Zooming.. ',
+          ),
+          // toggle camera zoom
+          onTap: zoomFunction,
+          // Cairo position:  lat 30.033333 lng 31.233334
+          position: const LatLng(30.033333, 31.233334),
         ),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      },
+      onMapCreated: onMapCreated,
     );
   }
 }
