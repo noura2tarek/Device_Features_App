@@ -13,11 +13,10 @@ the screen.
 
 # Explanation
 
-The home screen title is "Google Map".
-The body contains a google map widget that shows the map in the Cairo location.
+The home screen title is "Google Map".                                                      
+The body contains a google map widget that shows the map in the Cairo location.                                                                 
 Adding red marker to the cairo governornate in Egypt location, and while tapping on the marker, the
-map zoom
-in or out.
+map zoom in or out.             
 
 The screen output image --> in the images folder.
 ----------------------
