@@ -2,12 +2,12 @@
 
 # General Description
 
-This is a sample application that shows how to use the (device_info_plus) to access the device info.
+This is a simple application that shows some info about the device.
 
 The app determines the current operating system, device model and version:
 
 - Determine the current platform using dart:io library.
-- Determine the device model name and its operating system version using device_info_plus.
+- Determine the device model name and its operating system version using device_info_plus library.
 
 The home screen body contains a column of two text in center alignment:
 The first one is the current operating system text, the second one is the device model and version.
