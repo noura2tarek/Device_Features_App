@@ -25,7 +25,7 @@ list view after calling setState.
 While picking images from gallery, some phones like Realme, Oppo, and some OnePlus devices have
 issues with pickMultiImage(), as their default gallery app does not fully support multiple selections through
 image_picker .                      
-but, while trying any other source of images in the devices like drive or files, the function works
+but, while trying any other source of images in the device like drive, google photos, or files, the function works
 well.
 
 The screen output images --> in the assets/images folder.                             
