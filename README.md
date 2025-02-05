@@ -18,7 +18,7 @@ And the 'pick image' button below the list.
 
 The button pick multiple images using the image picker --> picker.pickMultiImage()
 which return List<XFile> images, then i map this list to a list of files and display them in the
-list view after calling set setState.
+list view after calling setState.
 
 # Note:
 
@@ -30,8 +30,8 @@ well.
 
 The screen output images --> in the assets/images folder.
 Also, The screen output video --> in the assets folder.
-----------------------
 
+-------------------------
 # Packages Used
 
 Image Picker: => https://pub.dev/packages/image_picker
