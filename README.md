@@ -12,7 +12,8 @@ The app determines the current operating system, device model and version:
 The home screen body contains a column of two text in center alignment:
 The first one is the current operating system text, the second one is the device model and version.
 
-The screen output image --> in the images folder.
+**The screen output image --> in the images folder.**
+
 ----------------------
 
 # Packages Used
@@ -20,6 +21,6 @@ The screen output image --> in the images folder.
 device_info_plus: => https://pub.dev/packages/device_info_plus
 
 ----------------------------------------
-**Notes**:                     
+# Notes:                     
 -  **The media access task --> in media-access-feature branch**.                          
 -  **The google maps task --> in google-maps-feature branch**
