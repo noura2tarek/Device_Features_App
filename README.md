@@ -20,5 +20,6 @@ The screen output image --> in the images folder.
 device_info_plus: => https://pub.dev/packages/device_info_plus
 
 ----------------------------------------
-**Note**: 
-- **The media access task --> in media-access-feature branch**.
+**Notes**: 
+1 - **The media access task --> in media-access-feature branch**.
+2-  **The google maps task --> in google-maps-feature branch**
