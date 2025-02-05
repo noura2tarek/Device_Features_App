@@ -27,7 +27,7 @@ class MyHomePageState extends State<MyHomePage> {
 
   bool isZoomed = false;
 
-  //---- Toggle Zoom Cairo Position  -----//
+  //----  Toggle Zoom Cairo Position Method -----//
   Future<void> _zoomCairoEgypt() async {
     setState(() {
       isZoomed = !isZoomed;
