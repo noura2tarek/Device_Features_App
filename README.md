@@ -14,21 +14,21 @@ This is a simple application that enables the user to access the device photo li
 # Explanation
 
 The home screen body contains the ListView where the images will be displayed
-And the 'pick image' button below the list.
+And the 'pick image' button below the list.                                
 
-The button pick multiple images using the image picker --> picker.pickMultiImage()
+The button pick multiple images using the image picker --> picker.pickMultiImage()                                 
 which return List<XFile> images, then i map this list to a list of files and display them in the
-list view after calling setState.
+list view after calling setState.                   
 
 # Note:
 
 While picking images from gallery, some phones like Realme, Oppo, and some OnePlus devices have
 issues with pickMultiImage(), as their default gallery app does not fully support multiple selections through
-image_picker .
+image_picker .                      
 but, while trying any other source of images in the devices like drive or files, the function works
 well.
 
-The screen output images --> in the assets/images folder.
+The screen output images --> in the assets/images folder.                             
 Also, The screen output video --> in the assets folder.
 
 -------------------------
