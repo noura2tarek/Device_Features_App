@@ -21,4 +21,4 @@ device_info_plus: => https://pub.dev/packages/device_info_plus
 
 ----------------------------------------
 **Note**: 
-The media access task --> in media-access-feature branch.
+- **The media access task --> in media-access-feature branch**.
