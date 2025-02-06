@@ -1,91 +1,151 @@
 import 'dart:developer';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import 'package:flutter_sound/flutter_sound.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
   final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  const MyHomePage({super.key, required this.title});
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<File> pickedImages = [];
-  final ImagePicker picker = ImagePicker();
+  final FlutterSoundRecorder _recorder = FlutterSoundRecorder();
+  final FlutterSoundPlayer _player = FlutterSoundPlayer();
 
-  //-- Pick Multiple Image Method --//
-  Future<void> _pickMultipleImage() async {
-    // We don't need to check permission as this already handled by image_picker
-    // Pick multiple images.
-    final List<XFile> images = await picker.pickMultiImage();
-    if (images.isNotEmpty) {
-      log('picked images count is ${images.length}');
+  bool _isRecording = false;
+  bool _isPlaying = false;
+  bool _isRecordingCompleted = false;
+  String? _filePath;
 
-      setState(() {
-        pickedImages = images.map((e) => File(e.path)).toList();
-      });
-    } else {
-      log('No image selected');
+  @override
+  void initState() {
+    super.initState();
+    _initialize();
+  }
+
+//----------------- Methods -----------------//
+  // Check microphone permission method
+  Future<void> _checkPermissions() async {
+    var status = await Permission.microphone.request();
+    if (status.isDenied) {
+      log("The Microphone permission has been denied");
     }
   }
+
+  // Get temporary directory to store audio
+  _getTempDir() async {
+    Directory tempDir = await getTemporaryDirectory();
+    _filePath = '${tempDir.path}/recording.aac';
+    setState(() {});
+  }
+
+  // initialize method
+  Future<void> _initialize() async {
+    await _checkPermissions();
+    await _recorder.openRecorder();
+    await _player.openPlayer();
+    // Get temp directory
+    _getTempDir();
+  }
+
+  // Start recording method
+  Future<void> _startRecording() async {
+    // Start recording
+    await _recorder.startRecorder(
+      toFile: _filePath,
+      audioSource: AudioSource.microphone,
+      codec: Codec.aacADTS,
+    );
+    setState(() {
+      _isRecording = true;
+    });
+  }
+
+  // Stop recording method
+  Future<void> _stopRecording() async {
+    await _recorder.stopRecorder();
+    setState(() {
+      _isRecording = false;
+      _isRecordingCompleted = true;
+    });
+  }
+
+  // Play audio method
+  Future<void> _playRecording() async {
+    if (_filePath != null) {
+      await _player.startPlayer(
+          fromURI: _filePath!,
+          codec: Codec.aacADTS,
+          whenFinished: () {
+            setState(() {
+              _isPlaying = false;
+            });
+          });
+      setState(() {
+        _isPlaying = true;
+      });
+    }
+  }
+
+  // Stop playing audio method
+  Future<void> _stopPlayback() async {
+    await _player.stopPlayer();
+    setState(() {
+      _isPlaying = false;
+    });
+  }
+
+  //---------------- End of Methods -----------------//
+  ///////////////////////////////////////////////////
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(
-          widget.title,
-          style: Theme.of(context)
-              .textTheme
-              .headlineSmall
-              ?.copyWith(fontWeight: FontWeight.w500),
-        ),
-        centerTitle: true,
+        title: Text(widget.title),
+        elevation: 1.0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 16.0,
-        ),
+      body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //-- Images Picked List --//
-            if (pickedImages.isNotEmpty)
-              Expanded(
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (context, index) {
-                    var image = pickedImages[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Image.file(
-                        height: 200.0,
-                        width: double.infinity,
-                        image,
-                        fit: BoxFit.cover,
-                      ),
-                    );
-                  },
-                  itemCount: pickedImages.length,
-                ),
-              ),
-            //-- Pick Image button --//
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Center(
-                child: OutlinedButton(
-                  onPressed: _pickMultipleImage,
-                  child: Text('Pick Image'),
-                ),
+            //-- Record audio button --//
+            OutlinedButton.icon(
+              icon: Icon(_isRecording ? Icons.stop : Icons.mic),
+              onPressed: _isRecording ? _stopRecording : _startRecording,
+              label: Text(_isRecording ? "Stop Recording.." : "Record Audio"),
+            ),
+            // loading indicator
+            Visibility(
+              visible: _isRecording || _isPlaying,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: LinearProgressIndicator(),
               ),
             ),
+            //-- Play Audio button --//
+            if (_isRecordingCompleted)
+              OutlinedButton.icon(
+                icon: Icon(_isPlaying ? Icons.stop : Icons.play_arrow_outlined),
+                onPressed: _isPlaying ? _stopPlayback : _playRecording,
+                label: Text(_isPlaying ? 'Stop Playing..' : 'Play Audio'),
+              ),
           ],
         ),
       ),
     );
+  }
+
+  //-- Dispose method --//
+  @override
+  void dispose() {
+    _recorder.closeRecorder();
+    _player.closePlayer();
+    super.dispose();
   }
 }
