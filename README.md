@@ -6,20 +6,20 @@ Record an audio and play it back using Flutter Sound.
 
 This is a simple application that enables the user to record his audio and play it back.
 
-**Permission Used**:
+**Permission Used**                                                            
 1- Record audio permission.                              
 2- Write to external storage permission.                     
-3- Read from external storage.                                 
-
-- Add them in mainfest.xml like this:                                       
+3- Read from external storage.                                                  
+                                                  
+Add them in mainfest.xml like this:                                                                   
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>                                
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>                              
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>                                  
 
 -----------------------------
 
-# Explanation
-
+# Explanation                          
+                                                                  
 The home screen body contains the 'Record Audio' button to record an audio, and the 'Play Audio'
 button to play the recorded audio (this button is appears only after recording an audio).                                         
                                                                                                            
