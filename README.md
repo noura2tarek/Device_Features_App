@@ -9,7 +9,7 @@ This is a simple application that enables the user to record his audio and play 
 **Permission Used**                                                            
 1- Record audio permission.                              
 2- Write to external storage permission.                     
-3- Read from external storage.                                                  
+3- Read from external storage permission.                                                  
                                                   
 Add them in mainfest.xml like this:                                                                   
   <uses-permission android:name="android.permission.RECORD_AUDIO"/>                                
