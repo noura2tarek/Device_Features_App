@@ -22,5 +22,7 @@ device_info_plus: => https://pub.dev/packages/device_info_plus
 
 ----------------------------------------
 # Notes:                     
--  **The media access task --> in media-access-feature branch**.                          
--  **The google maps task --> in google-maps-feature branch**
+-  **The media access task --> in media_access_eature branch**.                          
+-  **The google maps task --> in google_maps_feature branch**.
+-  **The Record & playing audio task --> in voice_audio_feature branch**.
+
