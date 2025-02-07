@@ -108,7 +108,16 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        centerTitle: true,
         elevation: 1.0,
+        leading: IconButton(
+            onPressed: () {
+              // return to first state
+              setState(() {
+                _isRecordingCompleted = false;
+              });
+            },
+            icon: Icon(Icons.settings_backup_restore)),
       ),
       body: Center(
         child: Column(
