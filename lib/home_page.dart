@@ -111,6 +111,7 @@ class _MyHomePageState extends State<MyHomePage> {
         centerTitle: true,
         elevation: 1.0,
         leading: IconButton(
+          tooltip: 'Return to first state',
             onPressed: () {
               // return to first state
               setState(() {
