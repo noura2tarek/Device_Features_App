@@ -24,7 +24,7 @@ map zoom in or out.
 
 ----------------------
 
-#How to Run
+# How to Run
 
 1. Clone the repository.
 2. Run `flutter pub get` to install dependencies.
