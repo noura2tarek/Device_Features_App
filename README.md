@@ -12,9 +12,12 @@ The app determines the current operating system, device model and version:
 The home screen body contains a column of two text in center alignment:
 The first one is the current operating system text, the second one is the device model and version.
 
-**The screen output image --> in the images folder.**
-
 ----------------------
+# Screenshots
+ 
+![Device_Info_Screenshot](screen_output.png)
+
+----------------------------
 
 # Packages Used
 
