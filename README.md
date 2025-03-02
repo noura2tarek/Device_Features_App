@@ -20,9 +20,15 @@ The body contains a google map widget that shows the map in the Cairo location.
 Adding red marker to the cairo governorate in Egypt location, and while tapping on the marker, the
 map zoom in or out.             
 
-**The screen output image --> in the images folder**.
-
 ----------------------
+
+# Screenshots
+
+| Home Page                               |                                                   
+|-----------------------------------------|
+| ![Google Maps](screen_output.png)       |                                                   
+
+-----------------------------------------
 
 # How to Run
 
